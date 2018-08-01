@@ -10,3 +10,6 @@ with open("pickle.tst", "rb") as fich:
     data = pk.load(fich)
 
 print(data)
+
+
+
