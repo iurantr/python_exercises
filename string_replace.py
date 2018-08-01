@@ -17,3 +17,22 @@ def remplacer_mot_brut_force(to_replace, replace_by, in_what):
         if bytear == str_sum:
             if in_what[i:i+in_what]==to_replace:
                 pos.append(i)
+
+
+def remplacer_mot(mot1, mot2, ch):
+    n = len(ch)
+    n1 = len(mot1)
+    n2 = len(mot2)
+    i=0
+    while i<n-n1:
+        if ch[i:i+n1]==mot1:
+            ch = ch[:i] + mot2 + ch[i+n1:]
+            n+=n2
+            i+=n2-n1
+        i+=1
+    return ch
+
+mot1="bc"
+mot2="123bc456"
+ch="abcbcbcbcdbc"
+print(remplacer_mot(mot1, mot2, ch))
