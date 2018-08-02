@@ -1,29 +1,39 @@
-url = "http://quotes.toscrape.com/"
-
-from urllib.request import (urlopen) #, urlparse, urlunparse, urlretrieve)
-
+from urllib.request import (urlopen)  # , urlparse, urlunparse, urlretrieve)
 from bs4 import BeautifulSoup as bs
 
+url = "http://quotes.toscrape.com"
 thereIsNextPage = True
 page = ""
 quotes = []
+# Looping and scrapping the pages
 while thereIsNextPage:
-    print("Processing page: ", url+page)
-    soup = bs(urlopen(url+page), 'html5lib')
+    print("Processing page: ", url + page)
+    soup = bs(urlopen(url + page), 'html5lib')
     # truc plus propre
-    for quote in soup.find_all('div', {"class":"quote"}):
-        quote_text = quote.find_all('span', {'class':'text'})[0].get_text()
+    for quote in soup.find_all('div', {"class": "quote"}):
+        quote_text = quote.find_all('span', {'class': 'text'})[0].get_text()
+        quote_text = quote_text.strip('“"')
         quote_author = quote.find_all('small', {'class': 'author'})[0].get_text()
-        quotes.append({"quote text": quote_text, "quote author": quote_author})
+        quotes.append({"Quote": quote_text, "Author": quote_author})
 
-    next_page = soup.find_all('li', {"class":"next"})
+    next_page = soup.find_all('li', {"class": "next"})
     if len(next_page):
         page = next_page[0].find_all('a')[0].get('href')
     else:
         thereIsNextPage = False
 
+# Printing
 for quoteT in quotes:
-    print(quoteT["quote text"], " by ", quoteT["quote author"])
+    print(quoteT["Quote"], " by ", quoteT["Author"])
+
+# Saving the results
+import csv
+
+with open("quotes.csv", 'w', encoding='utf-8') as csvfile:
+    csvW = csv.DictWriter(csvfile, dialect='excel', delimiter=',', \
+                          fieldnames=["Quote", "Author"])
+    csvW.writeheader()
+    csvW.writerows(quotes)
 
 # Save to a file
 # with open("quotes.html", 'w', encoding='utf-8') as file:
@@ -36,5 +46,3 @@ for quoteT in quotes:
 #
 # print("\n".join(list_text))
 # print("\n")
-
-
