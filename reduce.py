@@ -6,5 +6,3 @@ print(any([0, 1, 3]))
 
 print([bool(x) for x in [0, 1, 3]])
 print(bool([0, 1, 3]))
-
-
