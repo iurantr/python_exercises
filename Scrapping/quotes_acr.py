@@ -17,7 +17,7 @@ while thereIsNextPage:
         quotes.append({"Quote": quote_text, "Author": quote_author})
 
     next_page = soup.find_all('li', {"class": "next"})
-    if len(next_page):
+    if len(next_page):0
         page = next_page[0].find_all('a')[0].get('href')
     else:
         thereIsNextPage = False
